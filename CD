@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Animations & JS Scope Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Skip-link for accessibility -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <h1>Transitions, Keyframes & JS Scope Demo</h1>
+  </header>
+
+  <main id="main">
+    <!-- SECTION 1 – CSS Transition Demo -->
+    <section class="section-transitions">
+      <h2>CSS Transitions (hover & focus)</h2>
+      <button class="btn-hover">Hover or Focus Me</button>
+    </section>
+
+    <!-- SECTION 2 – CSS Keyframe Animation Demo -->
+    <section class="section-keyframes">
+      <h2>CSS Keyframe Animation</h2>
+      <div class="box bounce-infinite"></div>
+      <button class="btn-play">Play One-Shot Bounce</button>
+    </section>
+
+    <!-- SECTION 3 – JavaScript Scope / Animation Trigger Demo -->
+    <section class="section-js">
+      <h2>JS Scope & Animation Trigger</h2>
+      <p>Click to trigger a scoped animation and see the returned value.</p>
+      <button class="btn-trigger">Trigger Animation</button>
+      <div class="box js-animate"></div>
+      <output id="js-result"></output>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Demo Project</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+/* ---------- CSS RESET ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  background: #f5f7fa;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+}
+.skip-link:focus {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  background: #0077cc;
+  color: #fff;
+  padding: 0.5rem;
+  z-index: 1000;
+}
+
+/* ---------- LAYOUT ---------- */
+header,
+footer {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+main {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+/* ---------- SECTION 1 – TRANSITIONS ---------- */
+.btn-hover {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background: #0077cc;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.btn-hover:hover,
+.btn-hover:focus {
+  background: #005fa3;
+  transform: scale(1.05);
+}
+
+/* ---------- SECTION 2 – KEYFRAME ANIMATION ---------- */
+.box {
+  width: 100px;
+  height: 100px;
+  background: #ff6b6b;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+/* Infinite bounce */
+.bounce-infinite {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+/* One-shot bounce class (added via JS) */
+.bounce-once {
+  animation: bounce 1s;
+}
+
+/* ---------- SECTION 3 – JS TRIGGER CLASSES ---------- */
+.js-animate {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.js-animate.animate {
+  transform: translateX(200px) rotate(180deg);
+  opacity: 0.3;
+}
+/* =========================================================
+   GLOBAL SCOPE – constants & utilities
+   ========================================================= */
+const btnPlay = document.querySelector('.btn-play');
+const btnTrigger = document.querySelector('.btn-trigger');
+const jsBox = document.querySelector('.js-animate');
+const output = document.getElementById('js-result');
+
+/* =========================================================
+   SECTION 2 – Animation trigger using parameters & return
+   ========================================================= */
+/**
+ * Adds a one-shot keyframe animation to an element and
+ * returns the animation's duration in milliseconds.
+ * @param {HTMLElement} element - target DOM node
+ * @param {string} className - CSS class that triggers animation
+ * @returns {number} duration of animation in ms
+ */
+function playAnimationOnce(element, className) {
+  const DURATION = 1000; // matches CSS keyframe length
+  element.classList.add(className);
+  setTimeout(() => element.classList.remove(className), DURATION);
+  return DURATION;
+}
+
+btnPlay.addEventListener('click', () => {
+  const duration = playAnimationOnce(document.querySelector('.box'), 'bounce-once');
+  console.log(`One-shot bounce lasted ${duration} ms`);
+});
+
+/* =========================================================
+   SECTION 3 – Scope demo & transition trigger
+   ========================================================= */
+/**
+ * Toggles a scoped class on an element and returns
+ * the new animation state as a string.
+ * @param {HTMLElement} el – element to animate
+ * @returns {string} – resulting state ('applied' or 'removed')
+ */
+function toggleScopedAnimation(el) {
+  const isApplied = el.classList.toggle('animate');
+  return isApplied ? 'applied' : 'removed';
+}
+
+btnTrigger.addEventListener('click', () => {
+  const state = toggleScopedAnimation(jsBox);
+  output.textContent = `Animation class ${state}.`;
+});
