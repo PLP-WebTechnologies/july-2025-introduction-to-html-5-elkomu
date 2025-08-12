@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Needs -->
+  <meta charset="utf-8" />
+  <title>Welcome to My Accessible & SEO-Friendly Site</title>
+
+  <!-- SEO -->
+  <meta name="description" content="A concise, compelling summary that tells search engines and users what this page is about." />
+  <meta name="keywords" content="accessibility, SEO, semantic HTML, web standards, inclusive design" />
+  <meta name="author" content="Your Name or Organization" />
+  <link rel="canonical" href="https://yoursite.com/" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yoursite.com/" />
+  <meta property="og:title" content="Welcome to My Accessible & SEO-Friendly Site" />
+  <meta property="og:description" content="A concise, compelling summary that tells search engines and users what this page is about." />
+  <meta property="og:image" content="https://yoursite.com/og-image.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://yoursite.com/" />
+  <meta name="twitter:title" content="Welcome to My Accessible & SEO-Friendly Site" />
+  <meta name="twitter:description" content="A concise, compelling summary that tells search engines and users what this page is about." />
+  <meta name="twitter:image" content="https://yoursite.com/twitter-image.jpg" />
+
+  <!-- Favicon & Apple Touch Icons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!-- Responsive & Accessibility -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <!-- Skip Link for Keyboard Users -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Site Header -->
+  <header>
+    <div class="container">
+      <a href="/" aria-label="Home">
+        <img src="logo.svg" alt="MySite Logo" width="120" height="40" />
+      </a>
+
+      <!-- Primary Navigation -->
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <section id="hero">
+      <h1>Building Inclusive & Search-Optimized Experiences</h1>
+      <p>This single HTML file demonstrates semantic structure, accessibility best practices, and SEO-friendly metadata—without relying on external styles or scripts.</p>
+    </section>
+
+    <section id="about" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Us</h2>
+      <p>
+        We believe the web should be usable by everyone, regardless of ability or device. By leveraging semantic HTML5 elements, proper heading order, and descriptive attributes, we create content that’s both machine-readable and human-friendly.
+      </p>
+    </section>
+
+    <section id="services" aria-labelledby="services-heading">
+      <h2 id="services-heading">Our Services</h2>
+      <ul role="list">
+        <li>
+          <h3>Accessibility Audits</h3>
+          <p>Comprehensive reviews to ensure WCAG 2.2 compliance.</p>
+        </li>
+        <li>
+          <h3>SEO Strategy</h3>
+          <p>Keyword research, on-page optimization, and structured data.</p>
+        </li>
+        <li>
+          <h3>Content Design</h3>
+          <p>User-centered copy and information architecture.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact Us</h2>
+      <form action="https://example.com/submit" method="post">
+        <fieldset>
+          <legend>Send us a message</legend>
+
+          <label for="name">Name <abbr title="required" aria-label="required">*</abbr></label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email <abbr title="required" aria-label="required">*</abbr></label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Message <abbr title="required" aria-label="required">*</abbr></label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit">Send</button>
+        </fieldset>
+      </form>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer>
+    <p>&copy; <span id="year">2024</span> MySite. All rights reserved.</p>
+    <nav aria-label="Legal">
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <!-- Small, unobtrusive script for dynamic year -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
