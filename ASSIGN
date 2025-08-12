@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Playground – Parts 1-4 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>JavaScript Fundamentals Demo</h1>
+    <p>Check the console for extra logs and try the interactive buttons.</p>
+  </header>
+
+  <main>
+    <!-- DOM targets -->
+    <section id="user-section">
+      <h2>Part 1 – Variables & Conditionals</h2>
+      <p>Your status: <span id="status">unknown</span></p>
+    </section>
+
+    <section id="function-section">
+      <h2>Part 2 – Custom Functions</h2>
+      <p>
+        <button id="btn-calc">Call <code>calculateArea()</code></button>
+        <output id="area-result"></output>
+      </p>
+      <p>
+        <button id="btn-greet">Call <code>greetUser()</code></button>
+        <output id="greet-result"></output>
+      </p>
+    </section>
+
+    <section id="loop-section">
+      <h2>Part 3 – Loops</h2>
+      <ul id="loop-list"></ul>
+    </section>
+
+    <section id="dom-section">
+      <h2>Part 4 – DOM Interaction</h2>
+      <button id="add-item">Add list item</button>
+      <button id="toggle-theme">Toggle theme</button>
+      <button id="clear-list">Clear list</button>
+
+      <ul id="dynamic-list"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+:root {
+  --bg: #f5f7fa;
+  --text: #333;
+  --accent: #0077cc;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 2rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body.dark {
+  --bg: #222;
+  --text: #eee;
+}
+
+h1, h2 {
+  color: var(--accent);
+}
+
+button {
+  margin: 0.5rem 0.25rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+ul {
+  margin-top: 1rem;
+}
+
+li {
+  padding: 0.25rem;
+}
+/* =========================================================
+   Part 1 – Variables & Conditionals
+   ========================================================= */
+const userName = prompt("Enter your first name:", "Guest");
+const userAge = parseInt(prompt("Enter your age:", "18"), 10);
+
+let statusText;
+if (isNaN(userAge)) {
+  statusText = "Invalid age provided!";
+} else if (userAge < 18) {
+  statusText = `${userName} is a minor.`;
+} else if (userAge >= 18 && userAge < 65) {
+  statusText = `${userName} is an adult.`;
+} else {
+  statusText = `${userName} is a senior.`;
+}
+document.getElementById("status").textContent = statusText;
+
+console.log("Part 1 – Status:", statusText);
+
+/* =========================================================
+   Part 2 – Custom Functions
+   ========================================================= */
+// Function 1 – calculates area of a rectangle
+function calculateArea(width = 5, height = 10) {
+  return width * height;
+}
+
+// Function 2 – returns a greeting string
+function greetUser(name, timeOfDay = "day") {
+  return `Good ${timeOfDay}, ${name}! 👋`;
+}
+
+// Button handlers
+document.getElementById("btn-calc").addEventListener("click", () => {
+  const area = calculateArea(7, 9);
+  document.getElementById("area-result").value = `Area: ${area}`;
+});
+
+document.getElementById("btn-greet").addEventListener("click", () => {
+  const greeting = greetUser(userName, "evening");
+  document.getElementById("greet-result").value = greeting;
+});
+
+/* =========================================================
+   Part 3 – Loop Examples
+   ========================================================= */
+// Loop 1 – classic for
+const loopListEl = document.getElementById("loop-list");
+for (let i = 1; i <= 5; i++) {
+  const li = document.createElement("li");
+  li.textContent = `For loop item #${i}`;
+  loopListEl.appendChild(li);
+}
+
+// Loop 2 – for…of over an array
+const fruits = ["🍎 Apple", "🍌 Banana", "🍓 Strawberry"];
+for (const fruit of fruits) {
+  const li = document.createElement("li");
+  li.textContent = fruit;
+  loopListEl.appendChild(li);
+}
+
+/* =========================================================
+   Part 4 – DOM Interactions (≥3)
+   ========================================================= */
+const dynamicList = document.getElementById("dynamic-list");
+let counter = 0;
+
+// Interaction 1 – add list item
+document.getElementById("add-item").addEventListener("click", () => {
+  counter += 1;
+  const li = document.createElement("li");
+  li.textContent = `Dynamic item ${counter}`;
+  li.style.color = `hsl(${counter * 60}, 70%, 50%)`;
+  dynamicList.appendChild(li);
+});
+
+// Interaction 2 – toggle body class (theme)
+document.getElementById("toggle-theme").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
+// Interaction 3 – clear list
+document.getElementById("clear-list").addEventListener("click", () => {
+  dynamicList.innerHTML = "";
+  counter = 0;
+});
