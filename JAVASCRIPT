@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive Mini-Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Skip-link for accessibility -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <h1>Interactive Mini-Site</h1>
+    <p>Try the features below—everything is wired up with vanilla JavaScript.</p>
+  </header>
+
+  <main id="main">
+    <!-- SECTION 1: Colour-theme switcher -->
+    <section id="theme-section">
+      <h2>Theme Switcher</h2>
+      <button id="toggle-theme" type="button">Toggle dark/light mode</button>
+    </section>
+
+    <!-- SECTION 2: Random quote generator -->
+    <section id="quote-section">
+      <h2>Random Quote</h2>
+      <blockquote id="quote-text">Click the button for wisdom!</blockquote>
+      <button id="new-quote" type="button">New Quote</button>
+    </section>
+
+    <!-- SECTION 3: Contact form with custom validation -->
+    <section id="form-section">
+      <h2>Contact Us – Custom Validation</h2>
+      <form id="contact-form" novalidate>
+        <div class="field">
+          <label for="name">Name *</label>
+          <input type="text" id="name" name="name" required />
+          <span class="error" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email *</label>
+          <input type="text" id="email" name="email" required />
+          <span class="error" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+          <span class="error" aria-live="polite"></span>
+        </div>
+
+        <button type="submit">Send Message</button>
+        <p id="form-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Interactive Demo</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+/* =========================================================
+   1. THEME SWITCHER (Interactive feature #1)
+   ========================================================= */
+const toggleBtn = document.getElementById('toggle-theme');
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+});
+
+// Restore on load
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+/* =========================================================
+   2. RANDOM QUOTE GENERATOR (Interactive feature #2)
+   ========================================================= */
+const quotes = [
+  'The only limit to our realization of tomorrow is our doubts of today. – FDR',
+  'Life is 10% what happens to us and 90% how we react to it. – Charles R. Swindoll',
+  'The best way to predict the future is to create it. – Peter Drucker',
+  'You miss 100% of the shots you don’t take. – Wayne Gretzky'
+];
+
+const quoteText = document.getElementById('quote-text');
+const newQuoteBtn = document.getElementById('new-quote');
+
+newQuoteBtn.addEventListener('click', () => {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  quoteText.textContent = quotes[randomIndex];
+});
+
+/* =========================================================
+   3. CUSTOM FORM VALIDATION
+   ========================================================= */
+const form = document.getElementById('contact-form');
+const fields = form.querySelectorAll('[required]');
+const statusDisplay = document.getElementById('form-status');
+
+// Helper to show/hide error messages
+function showError(input, message) {
+  const errorEl = input.nextElementSibling;
+  errorEl.textContent = message;
+  input.setAttribute('aria-invalid', 'true');
+}
+
+function clearError(input) {
+  const errorEl = input.nextElementSibling;
+  errorEl.textContent = '';
+  input.setAttribute('aria-invalid', 'false');
+}
+
+// Validate individual field
+function validateField(input) {
+  const value = input.value.trim();
+  const name = input.name;
+
+  // Name: at least 2 letters
+  if (name === 'name' && (!value || !/^[A-Za-z\s]{2,}$/.test(value))) {
+    showError(input, 'Name must contain at least 2 letters.');
+    return false;
+  }
+
+  // Email: simple pattern
+  if (name === 'email' && (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))) {
+    showError(input, 'Please enter a valid email address.');
+    return false;
+  }
+
+  // Message: at least 10 characters
+  if (name === 'message' && value.length < 10) {
+    showError(input, 'Message must be at least 10 characters.');
+    return false;
+  }
+
+  clearError(input);
+  return true;
+}
+
+// Real-time validation
+fields.forEach((field) => {
+  field.addEventListener('blur', () => validateField(field));
+  field.addEventListener('input', () => {
+    if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+  });
+});
+
+// Validate entire form on submit
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  let isValid = true;
+  fields.forEach((field) => {
+    if (!validateField(field)) isValid = false;
+  });
+
+  if (isValid) {
+    statusDisplay.textContent = 'Thank you! Your message has been sent.';
+    form.reset();
+  } else {
+    statusDisplay.textContent = 'Please correct the highlighted fields.';
+  }
+});
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --accent: #0077cc;
+  --error: #d93025;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #e5e5e5;
+  --accent: #4dabf7;
+}
+
+a.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+}
+a.skip-link:focus {
+  position: fixed;
+  left: 0.5rem;
+  top: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem;
+  z-index: 1000;
+}
+
+header, footer {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+main {
+  max-width: 700px;
+  margin: auto;
+  padding: 1rem;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+blockquote {
+  font-style: italic;
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+input, textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.875rem;
+}
