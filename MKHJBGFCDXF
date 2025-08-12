@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flexbox & Grid Responsive Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Skip-link for keyboard/screen-reader users -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- Header / Navigation (Flexbox) -->
+  <header class="site-header">
+    <div class="container header-flex">
+      <h1 class="logo"><a href="#"><span aria-hidden="true">🌐</span> MySite</a></h1>
+
+      <nav class="main-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero section (simple flex centering) -->
+  <section class="hero">
+    <div class="container hero-flex">
+      <h2>Responsive Layouts Made Easy</h2>
+      <p>This page uses Flexbox for the header & hero, and CSS Grid for the card gallery.</p>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <main id="main" class="container">
+    <!-- Card gallery (CSS Grid) -->
+    <section class="gallery">
+      <h3 class="visually-hidden">Gallery Grid</h3>
+
+      <!-- 6 demo cards -->
+      <article class="card">
+        <img src="https://picsum.photos/600/400?random=1" alt="">
+        <h4>Card One</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </article>
+
+      <article class="card">
+        <img src="https://picsum.photos/600/400?random=2" alt="">
+        <h4>Card Two</h4>
+        <p>Integer nec odio. Praesent libero.</p>
+      </article>
+
+      <article class="card">
+        <img src="https://picsum.photos/600/400?random=3" alt="">
+        <h4>Card Three</h4>
+        <p>Sed cursus ante dapibus diam.</p>
+      </article>
+
+      <article class="card">
+        <img src="https://picsum.photos/600/400?random=4" alt="">
+        <h4>Card Four</h4>
+        <p>Nam quam nunc, blandit vel, luctus pulvinar.</p>
+      </article>
+
+      <article class="card">
+        <img src="https://picsum.photos/600/400?random=5" alt="">
+        <h4>Card Five</h4>
+        <p>Maecenas nec odio et ante tincidunt tempus.</p>
+      </article>
+
+      <article class="card">
+        <img src="https://picsum.photos/600/400?random=6" alt="">
+        <h4>Card Six</h4>
+        <p>Donec vitae sapien ut libero venenatis faucibus.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year">2024</span> MySite. Built with Flexbox & Grid.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+/* ==============================
+   CSS RESET & GLOBAL VARIABLES
+   ============================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --clr-bg: #f5f7fa;
+  --clr-primary: #004c99;
+  --clr-primary-light: #0077cc;
+  --clr-text: #222;
+  --clr-muted: #555;
+  --radius: 8px;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --max-width: 1100px;
+  --gap: 1.5rem;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--clr-text);
+  background: var(--clr-bg);
+}
+
+/* Utility classes */
+.container {
+  width: 90%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ==============================
+   HEADER — Flexbox
+   ============================== */
+.site-header {
+  background: var(--clr-primary);
+  color: #fff;
+  padding: 1rem 0;
+}
+
+.header-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+
+.nav-list a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  transition: background 0.3s;
+  border-radius: var(--radius);
+}
+
+.nav-list a:hover,
+.nav-list a:focus {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ==============================
+   HERO — Flexbox centering
+   ============================== */
+.hero {
+  background: linear-gradient(135deg, var(--clr-primary-light), var(--clr-primary));
+  color: #fff;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.hero-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.hero p {
+  font-size: 1.125rem;
+  max-width: 40ch;
+}
+
+/* ==============================
+   GALLERY — CSS Grid
+   ============================== */
+.gallery {
+  display: grid;
+  gap: var(--gap);
+  /* Default: 1 column on very small screens */
+  grid-template-columns: 1fr;
+  padding: 2rem 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card h4 {
+  padding: 1rem 1rem 0;
+  font-size: 1.25rem;
+}
+
+.card p {
+  padding: 0.5rem 1rem 1.5rem;
+  color: var(--clr-muted);
+}
+
+/* ==============================
+   FOOTER
+   ============================== */
+.site-footer {
+  background: #222;
+  color: #aaa;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+/* ==============================
+   RESPONSIVE BREAKPOINTS
+   ============================== */
+
+/* ≥600px tablets / small laptops */
+@media (min-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ≥900px desktops */
+@media (min-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ≥1200px large screens */
+@media (min-width: 1200px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
