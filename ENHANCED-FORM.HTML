@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Enhanced Accessibility & Validation Form</title>
+  <meta name="description" content="Demonstration of an HTML5 form with semantic markup, accessibility features, and built-in validation." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* Minimal, in-page styles for clarity only */
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background:#f7f7f7; color:#222; }
+    header, main, footer { max-width: 60rem; margin: auto; }
+    form, table { background:#fff; padding: 1.5rem; border-radius: .5rem; box-shadow: 0 2px 4px rgba(0,0,0,.05); margin-top: 2rem; }
+    fieldset { border: 1px solid #ccc; margin-bottom: 1rem; }
+    label { display:block; margin: .75rem 0 .25rem; font-weight:600; }
+    input, select, textarea, button { width:100%; padding:.5rem; font:inherit; border:1px solid #999; border-radius:.25rem; }
+    input:focus, select:focus, textarea:focus { outline:2px solid #005fcc; outline-offset:2px; }
+    .error:invalid { border-color:#d93025; }
+    .row { display:flex; gap:1rem; flex-wrap:wrap; }
+    .row > div { flex:1 1 10rem; }
+    button[type=submit] { width:auto; margin-top:1rem; background:#005fcc; color:#fff; border:none; cursor:pointer; }
+    button[type=submit]:hover { background:#004bb5; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    th, td { padding:.5rem; border-bottom:1px solid #ddd; text-align:left; }
+    caption { font-weight:600; margin-bottom:.5rem; }
+    .sr-only { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Enhanced Accessibility & Validation Form</h1>
+    <p>This page showcases semantic HTML5, lists, tables, media, and a fully-accessible form.</p>
+  </header>
+
+  <main>
+    <!-- Lists -->
+    <section aria-labelledby="list-heading">
+      <h2 id="list-heading">Quick Facts</h2>
+      <ul>
+        <li>All fields use native HTML5 validation.</li>
+        <li>Each control has an associated label.</li>
+        <li>A table of supported media types is provided.</li>
+      </ul>
+    </section>
+
+    <!-- Table -->
+    <section aria-labelledby="table-heading">
+      <h2 id="table-heading">Supported Media Types</h2>
+      <table>
+        <caption>File upload guidelines</caption>
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Extensions</th>
+            <th scope="col">Max Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Images</td>
+            <td>.jpg, .png, .webp</td>
+            <td>5 MB</td>
+          </tr>
+          <tr>
+            <td>Documents</td>
+            <td>.pdf, .docx</td>
+            <td>10 MB</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Media -->
+    <section aria-labelledby="media-heading">
+      <h2 id="media-heading">Illustrative Media</h2>
+      <figure>
+        <img src="https://via.placeholder.com/600x300?text=Sample+Image" alt="Placeholder sample demonstrating responsive image" width="600" height="300" loading="lazy" />
+        <figcaption>Responsive placeholder image.</figcaption>
+      </figure>
+
+      <audio controls preload="metadata">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <video controls width="100%" preload="metadata" poster="https://via.placeholder.com/600x337?text=Video+Poster">
+        <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
+        Sorry, your browser doesn’t support embedded videos.
+      </video>
+    </section>
+
+    <!-- Form -->
+    <form id="registration-form" action="#" method="post" enctype="multipart/form-data" novalidate>
+      <fieldset>
+        <legend>Personal Information</legend>
+
+        <div class="row">
+          <div>
+            <label for="first-name">First Name <abbr title="required">*</abbr></label>
+            <input type="text" id="first-name" name="firstName" placeholder="Jane" required autocomplete="given-name" />
+          </div>
+          <div>
+            <label for="last-name">Last Name <abbr title="required">*</abbr></label>
+            <input type="text" id="last-name" name="lastName" placeholder="Doe" required autocomplete="family-name" />
+          </div>
+        </div>
+
+        <label for="email">Email <abbr title="required">*</abbr></label>
+        <input type="email" id="email" name="email" placeholder="jane.doe@example.com" required autocomplete="email" />
+
+        <label for="tel">Phone</label>
+        <input type="tel" id="tel" name="tel" placeholder="+1 (555) 123-4567" pattern="^\+?\d{10,15}$" autocomplete="tel" />
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" max="2024-12-31" />
+
+        <label for="age">Age (readonly)</label>
+        <input type="number" id="age" name="age" readonly aria-readonly="true" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Account Details</legend>
+
+        <label for="username">Username <abbr title="required">*</abbr></label>
+        <input type="text" id="username" name="username" minlength="3" maxlength="20" required autocomplete="username" />
+
+        <label for="password">Password <abbr title="required">*</abbr></label>
+        <input type="password" id="password" name="password" minlength="8" required autocomplete="new-password" aria-describedby="pwd-help" />
+        <span id="pwd-help" class="sr-only">Minimum 8 characters.</span>
+
+        <label for="confirm">Confirm Password <abbr title="required">*</abbr></label>
+        <input type="password" id="confirm" name="confirm" required autocomplete="new-password" oninput="setCustomValidity(this.value !== password.value ? 'Passwords do not match' : '')" />
+
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website" placeholder="https://example.com" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Preferences</legend>
+
+        <label for="country">Country <abbr title="required">*</abbr></label>
+        <select id="country" name="country" required>
+          <option value="" disabled selected>Select your country</option>
+          <option value="us">United States</option>
+          <option value="ca">Canada</option>
+          <option value="uk">United Kingdom</option>
+        </select>
+
+        <label for="avatar">Profile Picture</label>
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/webp" />
+
+        <label for="bio">Short Bio <small>(max 200 characters)</small></label>
+        <textarea id="bio" name="bio" maxlength="200" rows="3" placeholder="Tell us about yourself..."></textarea>
+
+        <label for="color">Favorite Color</label>
+        <input type="color" id="color" name="color" value="#005fcc" />
+
+        <label>
+          <input type="checkbox" name="newsletter" checked />
+          Subscribe to newsletter
+        </label>
+
+        <fieldset>
+          <legend>Preferred Contact Method</legend>
+          <label><input type="radio" name="contactMethod" value="email" required checked /> Email</label>
+          <label><input type="radio" name="contactMethod" value="sms" required /> SMS</label>
+          <label><input type="radio" name="contactMethod" value="none" required /> None</label>
+        </fieldset>
+      </fieldset>
+
+      <button type="submit">Submit Registration</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Enhanced Form Demo</p>
+  </footer>
+
+  <script>
+    // Simple age calculation for demonstration
+    document.getElementById('dob').addEventListener('change', e => {
+      const dob = new Date(e.target.value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+      document.getElementById('age').value = age >= 0 ? age : '';
+    });
+  </script>
+</body>
+</html>
